@@ -73,15 +73,12 @@ namespace tutils
     // provided that the correct operators are overloaded.
     // A compiler error should be thrown if an invalid conversion is attempted.
     template <class FROM, class TO>
-    TO convert(const FROM& _f)
+    void convert(const FROM& _f, TO& _out)
     {
-        TO temp;
         std::stringstream stream;
 
         stream << _f;
-        stream >> temp;
-
-        return temp;
+        stream >> _out;
     }
 
 } // namespace tutils
