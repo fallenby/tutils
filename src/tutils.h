@@ -25,13 +25,60 @@
 
 namespace tutils
 {
-    std::vector<std::string> split(const std::string& _toSplit, const std::string& _delimeter);
+    std::vector<std::string> split(const std::string& _toSplit, const std::string& _delimeter)
+    {
+        std::vector<std::string> vect;
+        std::string temp;
+
+        unsigned pos = _toSplit.find(_delimeter.c_str());
+
+        if (pos > _toSplit.length())
+        {
+            vect.push_back(_toSplit);
+            return vect;
+        }
+
+        unsigned lastPos = 0;
+
+        while (pos < _toSplit.length())
+        {
+            for (unsigned i = lastPos; i < pos; ++i)
+            {
+                temp += _toSplit[i];
+            }
+
+            vect.push_back(temp);
+            temp = "";
+
+            lastPos = pos + _delimeter.length();
+            pos = _toSplit.find(_delimeter.c_str(), pos + 1);
+        }
+
+        if (lastPos == _toSplit.length())
+        {
+            return vect;
+        }
+
+        for (unsigned i = lastPos; i < _toSplit.length(); ++i)
+        {
+            temp += _toSplit[i];
+        }
+        vect.push_back(temp);
+
+        return vect;
+    }
 
     template <class FROM, class TO>
-    TO convertTo(const FROM& _f);
-}
+    TO convertTo(const FROM& _f)
+    {
+        TO temp;
+        std::stringstream stream;
 
-// Implementation file of the convertTo function.
-#include "convertTo.cpp"
+        stream << _f;
+        stream >> temp;
+
+        return temp;
+    }
+}
 
 #endif
