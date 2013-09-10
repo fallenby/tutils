@@ -29,17 +29,16 @@ namespace tutils
     // Function to split a string into a vector of its substrings by a predefined delimeter.
     // e.g. "Hello world!" split with the delimeter of a space would give the vector result of
     //      {"Hello", "world!"}.
-    std::vector<std::string> split(const std::string& _toSplit, const std::string& _delimeter)
+    void split(std::vector<std::string>& _out, const std::string& _toSplit, const std::string& _delimeter)
     {
-        std::vector<std::string> vect;
         std::string temp;
 
         unsigned pos = _toSplit.find(_delimeter.c_str());
 
         if (pos > _toSplit.length())
         {
-            vect.push_back(_toSplit);
-            return vect;
+            _out.push_back(_toSplit);
+            return;
         }
 
         unsigned lastPos = 0;
@@ -51,7 +50,7 @@ namespace tutils
                 temp += _toSplit[i];
             }
 
-            vect.push_back(temp);
+            _out.push_back(temp);
             temp = "";
 
             lastPos = pos + _delimeter.length();
@@ -60,16 +59,14 @@ namespace tutils
 
         if (lastPos == _toSplit.length())
         {
-            return vect;
+            return;
         }
 
         for (unsigned i = lastPos; i < _toSplit.length(); ++i)
         {
             temp += _toSplit[i];
         }
-        vect.push_back(temp);
-
-        return vect;
+        _out.push_back(temp);
     }
 
     // Function to convert from any type to any other type
