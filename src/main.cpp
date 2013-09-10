@@ -35,7 +35,7 @@ int main()
 
     std::string a = "14890";
     long str;
-    tutils::convert<std::string, long>(a, str);
+    tutils::convert<std::string, long>(str, a);
 
     std::cout << std::endl;
     std::cout << a << std::endl;
