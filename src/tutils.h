@@ -25,6 +25,10 @@
 
 namespace tutils
 {
+
+    // Function to split a string into a vector of its substrings by a predefined delimeter.
+    // e.g. "Hello world!" split with the delimeter of a space would give the vector result of
+    //      {"Hello", "world!"}.
     std::vector<std::string> split(const std::string& _toSplit, const std::string& _delimeter)
     {
         std::vector<std::string> vect;
@@ -68,8 +72,11 @@ namespace tutils
         return vect;
     }
 
+    // Function to convert from any type to any other type
+    // provided that the correct operators are overloaded.
+    // A compiler error should be thrown if an invalid conversion is attempted.
     template <class FROM, class TO>
-    TO convertTo(const FROM& _f)
+    TO convert(const FROM& _f)
     {
         TO temp;
         std::stringstream stream;
@@ -79,6 +86,7 @@ namespace tutils
 
         return temp;
     }
-}
+
+} // namespace tutils
 
 #endif
