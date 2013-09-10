@@ -12,5 +12,12 @@ int main()
         std::cout << vect[i] << std::endl;
     }
 
+    int a = 4;
+    double str = tutils::convertTo<int, double>(a);
+
+    std::cout << std::endl;
+    std::cout << a << std::endl;
+    std::cout << str << std::endl;
+
     return 0;
 }

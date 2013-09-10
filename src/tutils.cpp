@@ -13,14 +13,14 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see {http://www.gnu.org/licenses/}.
+    along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
 #include "tutils.h"
 
+#include <sstream>
 
-// Lots of ugly-ass code. Will improve.
-const std::vector<std::string> tutils::split(const std::string& _toSplit, const std::string& _delimeter)
+std::vector<std::string> tutils::split(const std::string& _toSplit, const std::string& _delimeter)
 {
     std::vector<std::string> vect;
     std::string temp;

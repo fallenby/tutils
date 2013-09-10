@@ -16,22 +16,21 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
-#ifndef TUTILS_H
-#define TUTILS_H
+#ifndef CONVERT_TO_CPP
+#define CONVERT_TO_CPP
 
-#include <string>
-#include <vector>
-#include <sstream>
+#include "tutils.h"
 
-namespace tutils
+template <class FROM, class TO>
+TO tutils::convertTo(const FROM& _f)
 {
-    std::vector<std::string> split(const std::string& _toSplit, const std::string& _delimeter);
+    TO temp;
+    std::stringstream stream;
 
-    template <class FROM, class TO>
-    TO convertTo(const FROM& _f);
+    stream << _f;
+    stream >> temp;
+
+    return temp;
 }
-
-// Implementation file of the convertTo function.
-#include "convertTo.cpp"
 
 #endif

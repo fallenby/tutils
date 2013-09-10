@@ -1,2 +1,2 @@
-tutils: *.h *.cpp
-	g++ -Wall *.cpp -o tutils
+tutils: src/*.h src/*.cpp
+	g++ -Wall src/*.cpp -o bin/tutils
