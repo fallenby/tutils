@@ -4,7 +4,8 @@
 
 int main()
 {
-    std::vector<std::string> vect = tutils::split("I,am,comma,delimeted", ",");
+    //std::vector<std::string> vect = tutils::split("I,am,comma,delimeted", ",");
+    std::vector<std::string> vect = tutils::split("1ham2ham3ham4", "am");
 
     for (unsigned i = 0; i < vect.size(); ++i)
     {

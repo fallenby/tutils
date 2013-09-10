@@ -1,22 +1,43 @@
+/*
+    tutils - a library of functions with some use.
+    Copyright (C) 2013  Frank Allenby
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see {http://www.gnu.org/licenses/}.
+*/
+
 #include "tutils.h"
 
-const std::vector<std::string>& tutils::split(const std::string& _toSplit, const std::string& _delimeter)
+
+// Lots of ugly-ass code. Will improve.
+const std::vector<std::string> tutils::split(const std::string& _toSplit, const std::string& _delimeter)
 {
     std::vector<std::string> vect;
     std::string temp;
 
-    int pos = _toSplit.find(_toSplit.c_str());
-    int lastPos = 0;
+    unsigned pos = _toSplit.find(_delimeter.c_str());
 
-    if (pos == std::string::npos)
+    if (pos > _toSplit.length())
     {
         vect.push_back(_toSplit);
         return vect;
     }
 
-    while (pos != std::string::npos)
+    unsigned lastPos = 0;
+
+    while (pos < _toSplit.length())
     {
-        for (int i = lastPos; i < pos; ++i)
+        for (unsigned i = lastPos; i < pos; ++i)
         {
             temp += _toSplit[i];
         }
@@ -24,9 +45,20 @@ const std::vector<std::string>& tutils::split(const std::string& _toSplit, const
         vect.push_back(temp);
         temp = "";
 
-        lastPos = pos;
-        pos = _toSplit.find(_toSplit.c_str(), pos);
+        lastPos = pos + _delimeter.length();
+        pos = _toSplit.find(_delimeter.c_str(), pos + 1);
     }
+
+    if (lastPos == _toSplit.length())
+    {
+        return vect;
+    }
+
+    for (unsigned i = lastPos; i < _toSplit.length(); ++i)
+    {
+        temp += _toSplit[i];
+    }
+    vect.push_back(temp);
 
     return vect;
 }
