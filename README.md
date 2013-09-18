@@ -1,4 +1,6 @@
 tutils
 ======
 
-Library of functions with some use.
+Tiny utilities.
+
+A library of functions with some use.
