@@ -92,12 +92,10 @@ namespace tutils
      *
      *  Searches all child directories for files with the provided extension within the provided root directory.
      */
-    void getFilesInDirRecursive(std::vector<std::string>& outList, const char* rootPath, const std::string& ext)
+    void getFilesInDirRecursive(std::vector<std::string>& outList, const std::string& rootPath, const std::string& ext)
     {
-        DIR *dir;
-        struct dirent *file;
-
-        dir = opendir(rootPath);
+        DIR *dir = opendir(rootPath.c_str());
+        struct dirent *file = 0;
 
         if (dir != NULL){
             while ((file = readdir(dir))){
