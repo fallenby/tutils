@@ -22,13 +22,18 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <algorithm>
+
+#include <dirent.h>
 
 namespace tutils
 {
 
-    // Function to split a string into a vector of its substrings by a predefined delimeter.
-    // e.g. "Hello world!" split with the delimeter of a space would give the vector result of
-    //      {"Hello", "world!"}.
+    /** Function to split a string into a vector of its substrings by a predefined delimeter.
+     *
+     *  e.g. "Hello world!" split with the delimeter of a space would give the vector result of
+     *       {"Hello", "world!"}.
+     */
     void split(std::vector<std::string>& _out, const std::string& _toSplit, const std::string& _delimeter)
     {
         std::string temp;
@@ -69,16 +74,57 @@ namespace tutils
         _out.push_back(temp);
     }
 
-    // Function to convert from any type to any other type
-    // provided that the correct operators are overloaded.
-    // A compiler error should be thrown if an invalid conversion is attempted.
+    /** Function to convert from any type to any other type.
+     *
+     *  Convert works provided that the correct operators are overloaded.
+     *  A compiler error should be thrown if an invalid conversion is attempted.
+     */
     template <class FROM, class TO>
-    void convert(TO& _out, const FROM& _f)
+    void convert(const FROM& _f, TO& _out)
     {
         std::stringstream stream;
 
         stream << _f;
         stream >> _out;
+    }
+
+    /** Get an unsorted list of all of the files in the provided root directory with the provided extension recursively.
+     *
+     *  Searches all child directories for files with the provided extension within the provided root directory.
+     */
+    void getFilesInDirRecursive(std::vector<std::string>& outList, const char* rootPath, const std::string& ext)
+    {
+        DIR *dir;
+        struct dirent *file;
+
+        dir = opendir(rootPath);
+
+        if (dir != NULL){
+            while ((file = readdir(dir))){
+                std::string fName(file->d_name);
+
+                if (file->d_type == DT_REG)
+                {
+                    if (fName.find_last_of(ext) == fName.length() - 1)
+                    {
+                        outList.push_back(rootPath + fName);
+                    }
+                }
+
+                std::string dName = fName;
+                if (file->d_type == DT_DIR)
+                {
+                    if (dName != "." && dName != "..")
+                    {
+                        dName = "/" + dName + "/";
+                        dName = rootPath + dName;
+                        getFilesInDirRecursive(outList, dName.c_str(), ext);
+                    }
+                }
+            }
+        }
+
+        closedir(dir);
     }
 
 } // namespace tutils
