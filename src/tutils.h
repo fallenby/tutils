@@ -34,7 +34,7 @@ namespace tutils
      *  e.g. "Hello world!" split with the delimeter of a space would give the vector result of
      *       {"Hello", "world!"}.
      */
-    void split(std::vector<std::string>& _out, const std::string& _toSplit, const std::string& _delimeter)
+    inline void split(std::vector<std::string>& _out, const std::string& _toSplit, const std::string& _delimeter)
     {
         std::string temp;
 
@@ -80,7 +80,7 @@ namespace tutils
      *  A compiler error should be thrown if an invalid conversion is attempted.
      */
     template <class FROM, class TO>
-    void convert(const FROM& _f, TO& _out)
+    inline void convert(const FROM& _f, TO& _out)
     {
         std::stringstream stream;
 
@@ -92,7 +92,7 @@ namespace tutils
      *
      *  Searches all child directories for files with the provided extension within the provided root directory.
      */
-    void getFilesInDirRecursive(std::vector<std::string>& outList, const std::string& rootPath, const std::string& ext)
+    inline void getFilesInDirRecursive(std::vector<std::string>& outList, const std::string& rootPath, const std::string& ext)
     {
         DIR *dir = opendir(rootPath.c_str());
         struct dirent *file = 0;
@@ -103,9 +103,17 @@ namespace tutils
 
                 if (file->d_type == DT_REG)
                 {
-                    if (fName.find_last_of(ext) == fName.length() - 1)
+                    if (fName.length() > ext.length())
                     {
-                        outList.push_back(rootPath + fName);
+                        if (fName.substr(fName.length() - ext.length(), ext.length()) == ext)
+                        {
+                            if (rootPath == ".")
+                            {
+                                outList.push_back(fName);
+                            } else {
+                                outList.push_back(rootPath + ((rootPath.find_last_of("/") == rootPath.length() - 1) ? "" : "/") + fName);
+                            }
+                        }
                     }
                 }
 
@@ -135,7 +143,7 @@ namespace tutils
     inline void sanitize(std::string& str, const std::string& list)
     {
         std::string temp;
-        for (int i = 0; i < str.length(); ++i)
+        for (unsigned i = 0; i < str.length(); ++i)
         {
             if (list.find(str[i]) == std::string::npos)
             {
@@ -148,3 +156,4 @@ namespace tutils
 } // namespace tutils
 
 #endif
+
